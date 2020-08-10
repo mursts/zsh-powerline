@@ -4,6 +4,7 @@ readonly COLOR_GIT='cyan'
 readonly COLOR_SUCCESS='green'
 readonly COLOR_FAILURE='red'
 readonly COLOR_TIME='cyan'
+readonly COLOR_VENV='yelow'
 
 readonly SYMBOL_GIT_BRANCH='⑂'
 readonly SYMBOL_GIT_MODIFIED='*'
@@ -58,6 +59,13 @@ _git_info() {
 }
 
 
+_venv_info() {
+    if [ -n "$VIRTUAL_ENV" ]; then
+        printf "(`basename $VIRTUAL_ENV`) "
+    fi
+}
+
+
 _config_prompt() {
     # Color coding based on exit code of the previous command.  Note this must
     # be dealt with in the beginning of the function, otherwise the $? will not
@@ -72,8 +80,9 @@ _config_prompt() {
     local cwd="%F{$COLOR_CWD}%~%f"
     local git="%F{$COLOR_GIT}$(_git_info)%f"
     local time="%F{$COLOR_TIME}%D{%H:%M:%S}%f"
+    local venv="%F{$COLOR_VENV}$(_venv_info)%f"
 
-    PROMPT="$cwd$git $symbol "
+    PROMPT="$venv$cwd$git $symbol "
     RPROMPT="$time"
 }
 
